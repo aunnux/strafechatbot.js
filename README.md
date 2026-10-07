@@ -9,9 +9,9 @@ npm install
 Keep bot tokens in environment variables; do not commit them.
 
 ```js
-import { StrafeClient } from 'StrafeChatBot.js';
+import { StrafeClient } from 'strafechatbot.js';
 
-const client = new StrafeClient({ token: process.env.BOT_TOKEN });
+const client = new StrafeClient({ token: 'StrafeBotToken' });
 
 client.on('ready', (ready) => {
   console.log(`Connected as ${ready.user.username}`);
@@ -40,7 +40,7 @@ access token. The gateway requires a bot token.
 
 Use `request(path, options)` for any API endpoint. Convenience methods include
 `getMe`, `getSpaces`, `getRoom`, `getMessages`, `sendMessage`, `editMessage`,
-`deleteMessage`, and `addReaction`.
+`deleteMessage`,`updatePresence`, and `addReaction`.
 
 ```js
 client.on('gatewayClose', (code, reason) => console.log(code, reason));
