@@ -7,6 +7,11 @@
   "exports": {
     ".": "./src/index.js"
   },
+  "homepage": "https://github.com/aunnux/strafechatbot.js/blob/main/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aunnux/strafechatbot.js"
+  },
   "scripts": {
     "test": "node --test"
   },
