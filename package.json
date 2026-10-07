@@ -1,0 +1,19 @@
+{
+  "name": "strafechatbot.js",
+  "version": "1.0.0",
+  "description": "Node.js REST and WebSocket client for the Strafe API",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
