@@ -3,7 +3,7 @@
 Node.js REST and WebSocket client for Strafe. Requires Node.js 18 or newer.
 
 ```sh
-npm install
+npm install strafechatbot.js
 ```
 
 Keep bot tokens in environment variables; do not commit them.
