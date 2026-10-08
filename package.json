@@ -1,6 +1,6 @@
 {
   "name": "strafechatbot.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Node.js REST and WebSocket client for the Strafe API",
   "type": "module",
   "main": "./src/index.js",
