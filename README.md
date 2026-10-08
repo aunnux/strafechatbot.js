@@ -51,9 +51,9 @@ client.disconnectGateway();
 
 ## Useful Functions/Tools
 ```js
-import { Func, Collection } from 'strafechatbot.js';
+import { Function, Collection } from 'strafechatbot.js';
 // Delays for 13seconds
-await Func.delay(13000);
+await Function.delay(13000);
 const cmds = new Collection(); // Borrowed from D.js
 ```
 See the [Strafe developer docs](https://app.strafe.chat/docs/), especially the
