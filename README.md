@@ -60,3 +60,43 @@ See the [Strafe developer docs](https://app.strafe.chat/docs/), especially the
 [REST API](https://app.strafe.chat/docs/rest/),
 [Gateway](https://app.strafe.chat/docs/gateway/), and
 [Bots](https://app.strafe.chat/docs/bots/) references.
+
+## OAuth sign-in
+
+Use `StrafeOAuth` from your **server-side** website code to let people sign in
+or register with Strafe. OAuth applications are confidential: the client
+secret is sent to Strafe when exchanging or refreshing tokens, so never expose
+it in browser code. Register the exact callback URL with your Strafe
+application. Generate and store a fresh `state` value in the visitor's session
+for each login attempt, and verify the returned state before exchanging the
+code.
+
+```js
+import { StrafeOAuth } from 'strafechatbot.js';
+
+const oauth = new StrafeOAuth({
+  clientId: process.env.STRAFE_CLIENT_ID,
+  clientSecret: process.env.STRAFE_CLIENT_SECRET,
+  redirectUri: 'https://example.com/auth/strafe/callback',
+});
+
+// At the start of sign-in, store this state in the visitor's server session.
+const state = oauth.generateState();
+session.strafeOAuthState = state;
+const authorizationUrl = oauth.getAuthorizationUrl({
+  scope: ['identify', 'email'],
+  state,
+});
+
+// In your callback handler, compare the returned state to the stored value
+// before using the code. Clear the stored state after checking it.
+const tokens = await oauth.exchangeCode(request.query.code);
+const user = await oauth.getUser(tokens.access_token);
+```
+
+`StrafeOAuth` also provides `refreshToken(refreshToken)`,
+`revokeToken(token)`, `getTokenInfo(accessToken)`, and
+`getUserSpaces(accessToken)`. Request only the scopes your site needs. Set
+`authorizeUrl` and `apiBaseUrl` in the constructor when connecting to another
+Strafe instance. See the [OAuth2 documentation](https://app.strafe.chat/docs/oauth2)
+for supported scopes and token behavior.
