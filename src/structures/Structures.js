@@ -74,10 +74,10 @@ export class Room {
         return this.client.spaces.get(this.space_id);
     }
 
-    sendMessage(message, options) {
+    send(message, options) {
         if (!this.id)
             throw new TypeError('A room ID is required to send a message');
-        return this.client.sendMessage(this.id, message, options);
+        return this.client.send(this.id, message, options);
     }
 }
 
@@ -100,22 +100,22 @@ export class Message {
         return this.room;
     }
 
-    sendMessage(message, options) {
+    send(message, options) {
         if (!this.room_id)
             throw new TypeError('A room ID is required to send a message');
-        return this.client.sendMessage(this.room_id, message, options);
+        return this.client.send(this.room_id, message, options);
     }
 
     edit(content, options) {
         if (!this.room_id || !this.id)
             throw new TypeError('A room ID and message ID are required to edit a message');
-        return this.client.editMessage(this.room_id, this.id, content, options);
+        return this.client.edit(this.room_id, this.id, content, options);
     }
 
     async delete(options) {
         if (!this.room_id || !this.id)
             throw new TypeError('A room ID and message ID are required to delete a message');
-        await this.client.deleteMessage(this.room_id, this.id, options);
+        await this.client.delete(this.room_id, this.id, options);
         return this;
     }
 

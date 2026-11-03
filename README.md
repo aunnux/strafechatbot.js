@@ -33,7 +33,7 @@ client.connectGateway();
 Gateway event names are also emitted in camelCase (`MESSAGE_CREATE` and
 `messageCreate` both work). Message events provide `Message` objects with
 payload fields such as `id`, `plaintext`, `sender_id`, and `room_id`, as well
-as `sendMessage()`, `edit()`, `delete()`, and `react()` methods. `message.room`
+as `send()`, `edit()`, `delete()`, and `react()` methods. `message.room`
 and `message.channel` refer to the cached room.
 
 The client maintains `client.users`, `client.spaces`, `client.rooms`
@@ -55,9 +55,9 @@ access token. The gateway requires a bot token.
 ## REST
 
 Use `request(path, options)` for any API endpoint. Convenience methods include
-`getMe`, `getSpaces`, `getRoom`, `getMessages`, `sendMessage`, `editMessage`,
+`getMe`, `getSpaces`, `getRoom`, `getMessages`, `send`, `editMessage`,
 `deleteMessage`, `updatePresence`, and `addReaction`. You can also send to the
-current room with `room.sendMessage(payload)` or `message.sendMessage(payload)`.
+current room with `room.send(payload)` or `message.send(payload)`.
 Message instances support `message.edit(payload)`, `message.delete()`, and
 `message.react(emoji)`.
 
