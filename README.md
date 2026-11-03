@@ -9,17 +9,17 @@ npm install strafechatbot.js
 Keep bot tokens in environment variables; do not commit them.
 
 ```js
-import { StrafeClient } from 'strafechatbot.js';
+import { Client } from 'strafechatbot.js';
 
-const client = new StrafeClient({ token: 'StrafeBotToken' });
+const client = new Client({ token: 'StrafeBotToken' });
 
 client.on('ready', (ready) => {
   console.log(`Connected as ${ready.user.username}`);
 });
 
-client.on('MESSAGE_CREATE', async (message) => {
+client.on('messageCreate', async (message) => {
   if (message.plaintext === '!ping') {
-    await client.sendMessage(message.room_id, {
+    await message.send({
       plaintext: 'pong',
       reply_to_id: message.id,
     });
@@ -29,6 +29,22 @@ client.on('MESSAGE_CREATE', async (message) => {
 client.on('gatewayError', (error) => console.error(error));
 client.connectGateway();
 ```
+
+Gateway event names are also emitted in camelCase (`MESSAGE_CREATE` and
+`messageCreate` both work). Message events provide `Message` objects with
+payload fields such as `id`, `plaintext`, `sender_id`, and `room_id`, as well
+as `sendMessage()`, `edit()`, `delete()`, and `react()` methods. `message.room`
+and `message.channel` refer to the cached room.
+
+The client maintains `client.users`, `client.spaces`, `client.rooms`
+(`client.channels` is an alias), and `client.members` collections. Spaces have
+their own `space.rooms` / `space.channels` and `space.members` collections.
+The global member cache uses `spaceId:userId` keys; use `space.members.get(userId)`
+for a member in a particular space.
+`client.getSpaces()`, `client.getRoom()`, `client.getSpaceRooms(spaceId)`,
+`client.getMessages()`, and `client.getMembers(spaceId)` populate these
+caches; member lists are not sent in the gateway `READY` payload. A space
+also offers `space.fetchRooms()` and `space.fetchMembers()`.
 
 The defaults target `https://app.strafe.chat/api` and
 `wss://app.strafe.chat/gateway/events`. Pass `apiBaseUrl` and `gatewayUrl` to
@@ -40,7 +56,10 @@ access token. The gateway requires a bot token.
 
 Use `request(path, options)` for any API endpoint. Convenience methods include
 `getMe`, `getSpaces`, `getRoom`, `getMessages`, `sendMessage`, `editMessage`,
-`deleteMessage`,`updatePresence`, and `addReaction`.
+`deleteMessage`, `updatePresence`, and `addReaction`. You can also send to the
+current room with `room.sendMessage(payload)` or `message.sendMessage(payload)`.
+Message instances support `message.edit(payload)`, `message.delete()`, and
+`message.react(emoji)`.
 
 ```js
 client.on('gatewayClose', (code, reason) => console.log(code, reason));
